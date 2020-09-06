@@ -25,6 +25,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref AWS::StackName
+      VpcId: vpc-0cd2e5074f6f9b898
 
   InstanceRole:
     Type: "AWS::IAM::Role"
@@ -66,6 +67,7 @@ Resources:
       ImageId: !Ref EC2AMI
       InstanceType: !Ref EC2InstanceType
       IamInstanceProfile: !Ref InstanceProfile
+      SubnetId: subnet-015d192a66ab5cd3b
       KeyName: anasharm-on-macbook
       Monitoring: true
       SecurityGroupIds:
