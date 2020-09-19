@@ -4,7 +4,10 @@ STACK_NAME=awsbootstrap
 REGION=us-east-1
 CLI_PROFILE="${1:-awsbootstrap}"
 EC2_INSTANCE_TYPE=t2.micro
+
 DOMAIN="namaste-aws.in"
+CERT=`aws acm list-certificates --region $REGION --profile awsbootstrap --output text \
+        --query "CertificateSummaryList[?DomainName=='$DOMAIN'].CertificateArn | [0]"`
 
 # Define S3 Bucket for CodePipeline
 AWS_ACCOUNT_ID=`aws sts get-caller-identity --profile awsbootstrap \
@@ -61,6 +64,7 @@ aws cloudformation deploy \
   --parameter-overrides \
     EC2InstanceType=$EC2_INSTANCE_TYPE \
     Domain=$DOMAIN \
+    Certificate=$CERT \
     GitHubOwner=$GH_OWNER \
     GitHubRepo=$GH_REPO \
     GitHubBranch=$GH_BRANCH \
